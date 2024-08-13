@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { View, Text, Pressable, Image } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { DataContext } from "@/contexts/context";
-import ImageWithGradient from "@/components/ImageWithGradient";
+import { DataContext } from "@/contexts/dataContext";
 import DetailsCardFullscreen from "@/components/DetailsCardFullscreen";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { auth } from "../../firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ImageWithGradient from "@/components/layouts/ImageWithGradient";
 
 const Booking = () => {
   const router = useRouter();
@@ -25,7 +27,13 @@ const Booking = () => {
     );
   }
 
-  const handleConfirmBooking = () => {
+  const handleConfirmBooking = async () => {
+    console.log(auth.currentUser?.email);
+    if (!auth.currentUser) {
+      router.push("/authentication");
+      return;
+    }
+
     const updatedActivities = dataActivities.map((activity) =>
       activity.id === Number(id)
         ? {
@@ -41,14 +49,24 @@ const Booking = () => {
     router.push("/booked");
   };
 
-  const handleWishlistSaving = () => {
+  const handleWishlistSaving = async () => {
     const updatedActivities = dataActivities.map((activity) =>
       activity.id === Number(id)
         ? { ...activity, wishlist: true, liked: true, deck: false }
         : activity
     );
     setDataActivities(updatedActivities);
-
+    try {
+      await AsyncStorage.setItem(
+        "dataActivities",
+        JSON.stringify(updatedActivities)
+      );
+      console.log("Data saved AsyncStorage:");
+    } catch (error) {
+      console.error("Error saving data to AsyncStorage:", error);
+    }
+    const storedData = await AsyncStorage.getItem("dataActivities");
+    console.log(storedData);
     router.push("/wishlist");
   };
 

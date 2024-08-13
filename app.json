@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "vivilife_native",
-    "slug": "vivilife_native",
+    "name": "vivilife",
+    "slug": "vivilife",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "",
-    "scheme": "myapp",
+    "scheme": "vivilife",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/walk.gif",

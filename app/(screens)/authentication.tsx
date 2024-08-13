@@ -1,96 +1,105 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TextInput,
-  Button,
-  Pressable,
-} from "react-native";
 import React, { useState } from "react";
-import { signInWithEmail, signUpWithEmail } from "@/helper/authentication";
-import GradientBackground from "@/components/GradientBackground";
-import { useRouter } from "expo-router";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import { SafeAreaView, Alert, View } from "react-native";
+import GradientBackground from "@/components/layouts/GradientBackground";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const authentication = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [login, setLogin] = useState(true);
+import { useSignUpWithEmail } from "@/hooks/authentication/useSignUpWithEmail";
+import { useSignInWithEmail } from "@/hooks/authentication/useSignInWithEmail";
+import AuthHeader from "@/components/screenAuthentication/AuthHeader";
+import InputField from "@/components/screenAuthentication/InputField";
+import AuthFooter from "@/components/screenAuthentication/AuthFooter";
+
+const Authentication: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [birthday, setBirthday] = useState<string>("");
+  const [isDatePickerVisible, setDatePickerVisibility] =
+    useState<boolean>(false);
+  const [login, setLogin] = useState<boolean>(true);
+
+  const handleSignUp = () => {
+    if (!email || !password || !username || !birthday) {
+      Alert.alert("Error", "All fields are required.");
+      return;
+    }
+    useSignUpWithEmail(email, password);
+  };
+
+  const showDatePicker = () => setDatePickerVisibility(true);
+  const hideDatePicker = () => setDatePickerVisibility(false);
+
+  const handleConfirm = (date: Date) => {
+    setBirthday(formatDate(date));
+    hideDatePicker();
+  };
+
+  const formatDate = (date: Date): string => {
+    const options: Intl.DateTimeFormatOptions = {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    };
+    return date.toLocaleDateString("en-GB", options);
+  };
+
   return (
-    <SafeAreaView className="flex-1 justify-center items-center ">
+    <SafeAreaView className="h-full w-full">
       <GradientBackground />
-      <View className="w-full max-w-md p-4">
-        {login ? (
-          <Text className="text-4xl font-bold mb-4 text-center text-darkerGreen">
-            Login
-          </Text>
-        ) : (
-          <Text className="text-4xl font-bold mb-4 text-center text-darkerGreen">
-            Sign Up
-          </Text>
-        )}
-        <TextInput
-          placeholder="Email"
-          autoCapitalize="none"
-          value={email}
-          onChangeText={setEmail}
-          className="h-12 border bg-white border-lightGreen focus:border-darkGreen rounded-xl p-2 mb-4"
-        />
 
-        <TextInput
-          placeholder="Password"
-          autoCapitalize="none"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-          className="h-12 border bg-white border-lightGreen focus:border-darkGreen rounded-xl p-2 mb-4"
-        />
-        {login && (
-          <Pressable
-            onPress={() => signInWithEmail(email, password)}
-            className="w-full p-2 bg-lightGreen  h-12 rounded-xl flex flex-row justify-center items-center"
-          >
-            <Text className="text-darkerGreen text-lg font-medium ">
-              Log in
-            </Text>
-          </Pressable>
-        )}
-        <Text className="text-darkerGreen text-sm font-medium my-4 text-center ">
-          Or log in with
-        </Text>
-        <Pressable className="w-full p-2 bg-darkGreen  h-12 rounded-xl flex flex-row justify-center items-center">
-          <AntDesign name="google" size={24} color="black" />
-          <Text className="ml-4 text-lightGreen text-lg font-medium ">
-            Log in with Google
-          </Text>
-        </Pressable>
-        {login ? (
-          <>
-            <Text className="text-darkerGreen text-sm font-medium my-4 text-center ">
-              Don't you have an account
-            </Text>
-            <Pressable
-              onPress={() => setLogin(!login)}
-              className="w-full p-2 bg-darkerGreen  h-12 rounded-xl flex flex-row justify-center items-center"
-            >
-              <Text className="text-lightGreen text-lg font-medium ">
-                Sign Up
-              </Text>
-            </Pressable>
-          </>
-        ) : (
-          <Pressable
-            onPress={() => signUpWithEmail(email, password)}
-            className="w-full p-2 bg-lightGreen  h-12 rounded-xl flex flex-row justify-center items-center mt-4"
-          >
-            <Text className="text-darkerGreen text-base font-medium ">
-              Sign Up
-            </Text>
-          </Pressable>
-        )}
+      <View className="p-4 w-full   ">
+        <View className="w-full  p-4 rounded-xl shadow-md flex justify-around h-full">
+          <AuthHeader isLogin={login} />
+          <View>
+            {!login && (
+              <View>
+                <InputField
+                  placeholder="Username"
+                  value={username}
+                  onChangeText={setUsername}
+                  icon="person"
+                />
+                <InputField
+                  placeholder="Birthday"
+                  value={birthday}
+                  onChangeText={setBirthday}
+                  icon="calendar"
+                  onPress={showDatePicker}
+                />
+                <DateTimePickerModal
+                  isVisible={isDatePickerVisible}
+                  mode="date"
+                  onConfirm={handleConfirm}
+                  onCancel={hideDatePicker}
+                />
+              </View>
+            )}
+            <InputField
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              icon="mail"
+            />
+            <InputField
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              icon="lock-closed"
+              isPassword
+            />
+          </View>
+          <AuthFooter
+            isLogin={login}
+            onToggle={() => setLogin(!login)}
+            onSubmit={() =>
+              login ? useSignInWithEmail(email, password) : handleSignUp()
+            }
+            buttonText={login ? "Log In" : "Sign Up"}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
 };
 
-export default authentication;
+export default Authentication;

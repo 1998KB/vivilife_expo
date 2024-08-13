@@ -1,55 +1,32 @@
-import React, { useContext, useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
-import GradientBackground from "@/components/GradientBackground";
-import ActivityBookedCard from "@/components/activityBookedCard/ActivityBookedCard";
-import { filteredBookedActivities } from "@/helper/activityFiltersHelperFunctions";
-import { DataContext } from "@/contexts/context";
-import BookedSortingOptions from "@/screens/screenBooked/BookedSortingOptions";
+// src/screens/Booked.tsx
+import React, { useState } from "react";
+import { View } from "react-native";
+import GradientBackground from "@/components/layouts/GradientBackground";
+import { useBookedActivities } from "@/hooks/useBookedActivities";
+import BookedActivityList from "@/components/tabBooked/BookedActivityList";
+import EmptyBookedMessage from "@/components/tabBooked/EmptyBookedMessage";
+import BookedSortingOptions from "@/components/tabBooked/BookedSortingOptions";
 
-export default function booked() {
+export default function Booked() {
   const [bookedSortingOptions, setBookedSortingOptions] = useState<
     "upcoming" | "attended"
   >("upcoming");
-  const { dataActivities, setDataActivities } = useContext(DataContext);
-
-  const filteredActivities = filteredBookedActivities(
-    dataActivities,
-    bookedSortingOptions
-  );
+  const filteredActivities = useBookedActivities(bookedSortingOptions);
 
   return (
-    <View className="flex-1 items-center h-full ">
+    <View className="flex-1 items-center h-full">
       <GradientBackground />
       <BookedSortingOptions
         bookedSortingOptions={bookedSortingOptions}
         setBookedSortingOptions={setBookedSortingOptions}
       />
       {filteredActivities.length > 0 ? (
-        <ScrollView
-          className=""
-          contentContainerStyle={{
-            width: "100%",
-            paddingBottom: 110,
-            paddingTop: 65,
-          }}
-          showsVerticalScrollIndicator={false}
-        >
-          {filteredActivities.map((activity) => (
-            <ActivityBookedCard
-              key={activity.id}
-              activity={activity}
-              type={bookedSortingOptions}
-            />
-          ))}
-        </ScrollView>
+        <BookedActivityList
+          activities={filteredActivities}
+          type={bookedSortingOptions}
+        />
       ) : (
-        <View className="flex-1 justify-center items-center">
-          <View>
-            <Text className="text-darkerGreen text-base font-medium ">
-              No activity booked
-            </Text>
-          </View>
-        </View>
+        <EmptyBookedMessage sortingOption={bookedSortingOptions} />
       )}
     </View>
   );

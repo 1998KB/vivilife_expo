@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import ImageWithGradient from "./ImageWithGradient";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import ImageWithGradient from "./layouts/ImageWithGradient";
 
 interface ImageActivityInfoProps {
   imageUri: string;
@@ -9,7 +9,7 @@ interface ImageActivityInfoProps {
   description: string;
   isLiked?: boolean;
   onToggleLike?: () => void;
-  height: number; 
+  height: number;
 }
 
 const ImageActivityInfo = ({

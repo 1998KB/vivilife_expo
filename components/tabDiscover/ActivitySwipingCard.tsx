@@ -1,24 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  LayoutChangeEvent,
-  Modal,
-  Pressable,
-  SafeAreaView,
-  View,
-} from "react-native";
-import InfoActivitySwiping from "./InfoActivitySwiping";
-import ImageWithGradient from "@/components/ImageWithGradient";
+import React, { useState } from "react";
+import { LayoutChangeEvent, Modal, Pressable, View } from "react-native";
 import { Activity } from "@/types";
+import InfoActivitySwiping from "./InfoActivitySwiping";
+import ImageWithGradient from "../layouts/ImageWithGradient";
 
 interface ActivitySwipingCardProps {
   card: Activity;
   cardDimensions: { width: number; height: number };
-  setCardDimentions: (dimensions: { width: number; height: number }) => void;
+  setCardDimensions: (dimensions: { width: number; height: number }) => void;
 }
-
 const ActivitySwipingCard = ({
   card,
-  setCardDimentions,
+  setCardDimensions,
   cardDimensions,
 }: ActivitySwipingCardProps) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,7 +19,7 @@ const ActivitySwipingCard = ({
   let handleLayout = (event: LayoutChangeEvent) => {
     if (cardDimensions.width === 0) {
       const { width, height } = event.nativeEvent.layout;
-      setCardDimentions({ width, height });
+      setCardDimensions({ width, height });
     }
   };
 

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { SplashScreen, Stack } from "expo-router";
-import { DataProvider } from "@/contexts/context";
+import { DataProvider } from "@/contexts/dataContext";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { RootSiblingParent } from "react-native-root-siblings";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // SplashScreen.preventAutoHideAsync();
 
@@ -23,29 +25,27 @@ export default function RootLayout() {
   //   prepare();
   // }, []);
   return (
-    <DataProvider>
-      <ActionSheetProvider>
-        <Stack>
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="(screens)/booking"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="(screens)/authentication"
-            options={{
-              headerShown: false,
-            }}
-          />
-        </Stack>
-      </ActionSheetProvider>
-    </DataProvider>
+    <GestureHandlerRootView>
+      <DataProvider>
+        <RootSiblingParent>
+          <ActionSheetProvider>
+            <Stack>
+              <Stack.Screen
+                name="(tabs)"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="(screens)"
+                options={{
+                  headerShown: false,
+                }}
+              />
+            </Stack>
+          </ActionSheetProvider>
+        </RootSiblingParent>
+      </DataProvider>
+    </GestureHandlerRootView>
   );
 }

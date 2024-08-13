@@ -1,6 +1,6 @@
 import { activities } from "@/content";
-import { filterDiscoverActivities } from "@/helper/activityFiltersHelperFunctions";
 import { Activity } from "@/types";
+import { filterDiscoverActivities } from "@/utils/filters/filterDiscoverActivities";
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 
 interface DataContextType {

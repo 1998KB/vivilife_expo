@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { formatDate } from "../helper/datesHelperFunctions";
+import { formatDate } from "../utils/datesManipulation";
 
 interface InfoActivityProps {
   time: string;

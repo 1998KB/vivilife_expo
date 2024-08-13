@@ -1,10 +1,10 @@
 import { View } from "react-native";
 import React from "react";
 import { Activity } from "@/types";
-import InfoActivity from "../InfoActivity";
-import HeaderActivtyBookedCard from "./HeaderActivtyBookedCard";
-import ButtonsActivtyBookedCard from "./ButtonsActivtyBookedCard";
 import ImageActivityInfo from "../ImageActivityInfo";
+import InfoActivity from "@/components/InfoActivity";
+import ButtonsBookedCard from "./ButtonsBookedCard";
+import HeaderActivtyBookedCard from "./HeaderActivtyBookedCard";
 
 interface BookedCardProps {
   activity: Activity;
@@ -31,7 +31,7 @@ const ActivityBookedCard = ({ activity, type }: BookedCardProps) => {
         price={activity.price}
         isBooked={activity.booked}
       />
-      <ButtonsActivtyBookedCard type={type} />
+      <ButtonsBookedCard type={type} />
     </View>
   );
 };

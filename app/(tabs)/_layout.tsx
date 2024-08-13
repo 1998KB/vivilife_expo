@@ -1,7 +1,7 @@
 import React from "react";
 import { Tabs } from "expo-router";
 import TabBar from "@/components/navigation/TabBar";
-import Header from "@/components/Header";
+import Header from "@/components/layouts/Header";
 
 export default function TabLayout() {
   return (

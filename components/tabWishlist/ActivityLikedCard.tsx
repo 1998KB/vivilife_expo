@@ -3,7 +3,7 @@ import { View } from "react-native";
 import BookButtonActivityLiked from "./BookButtonActivityLiked";
 import { Activity } from "@/types";
 import ImageActivityInfo from "../ImageActivityInfo";
-import InfoActivity from "../InfoActivity";
+import InfoActivity from "@/components/InfoActivity";
 
 interface ActivityLikedCardProps {
   activity: Activity;
