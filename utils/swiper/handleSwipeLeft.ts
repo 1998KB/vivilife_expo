@@ -2,25 +2,16 @@ import { Dispatch, SetStateAction } from "react";
 import { Activity } from "@/types";
 
 export const handleSwipeLeft = (
-  activities: Activity[],
-  currentIndex: number,
-  setDataActivities: Dispatch<SetStateAction<Activity[]>>,
-  dataActivities: Activity[],
-  setActivities: Dispatch<SetStateAction<Activity[]>>
+  discoverActivities: Activity[],
+  setDiscoverActivities: Dispatch<SetStateAction<Activity[]>>,
+
+  currentIndex: number
 ) => {
   return () => {
-    const activityId = activities[currentIndex].id;
+    const activityId = discoverActivities[currentIndex].id;
+    console.log("deleted act ", discoverActivities[currentIndex].title);
     if (activityId) {
-      setDataActivities(
-        dataActivities.map((activity) =>
-          activity.id === activityId ? { ...activity, deck: false } : activity
-        )
-      );
-      setActivities(
-        activities.map((activity) =>
-          activity.id === activityId ? { ...activity, deck: false } : activity
-        )
-      );
     }
+    discoverActivities.map((a) => console.log("remainingr act ", a.title));
   };
 };

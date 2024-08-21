@@ -2,21 +2,23 @@ export interface Activites {
   activites: Activity[];
 }
 export interface Activity {
-  id: number;
-  imageUri: string;
-  date: string;
-  time: string;
+  id: string;
+  imageUrl: string;
+  dateTime: string;
   title: string;
   description: string;
   price: number;
   location: string;
   peopleBooked: number;
   liked: boolean;
-  wishlist: boolean;
   booked: boolean;
-  distance: number;
-  furtherInformation: string;
+  furtherInformations: string;
   deck: boolean;
+  distance?: number;
+  geocode: {
+    latitude: number;
+    longitude: number;
+  };
 }
 
 export interface ActivitySwipingProps {

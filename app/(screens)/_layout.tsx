@@ -5,17 +5,9 @@ const _layout = () => {
   return (
     <Stack>
       <Stack.Screen
-        name="setting"
-        options={{
-          headerShown: false,
-          presentation: "modal",
-        }}
-      />
-      <Stack.Screen
         name="booking"
         options={{
           headerShown: false,
-          presentation: "modal",
         }}
       />
       <Stack.Screen
@@ -23,6 +15,7 @@ const _layout = () => {
         options={{
           headerShown: false,
           presentation: "modal",
+          gestureEnabled: true,
         }}
       />
     </Stack>

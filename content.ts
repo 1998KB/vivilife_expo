@@ -3,7 +3,7 @@ export const activities = [
     id: 1,
     imageUri:
       "https://images.pexels.com/photos/2035066/pexels-photo-2035066.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    date: "2024-08-12",
+    date: "2024-08-17",
     time: "18:30",
     title: "Yoga for Beginners",
     description:
@@ -23,7 +23,7 @@ export const activities = [
     id: 2,
     imageUri:
       "https://images.pexels.com/photos/3094215/pexels-photo-3094215.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    date: "2024-08-14",
+    date: "2024-08-18",
     time: "14:00",
     title: "Meditation Session",
     description:
@@ -163,7 +163,7 @@ export const activities = [
     id: 9,
     imageUri:
       "https://images.pexels.com/photos/1194235/pexels-photo-1194235.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    date: "2024-08-14",
+    date: "2024-08-18",
     time: "13:00",
     title: "Hiking Trip",
     description:

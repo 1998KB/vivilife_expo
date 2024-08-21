@@ -1,28 +1,27 @@
-import { View, Text } from "react-native";
 import React from "react";
-import { formatDate } from "../utils/datesManipulation";
+import { View, Text, Alert } from "react-native";
+import { formatDate, formatTime } from "../utils/datesTimeManipulation";
 
 interface InfoActivityProps {
-  time: string;
-  date: string;
-  distance: number;
+  dateTime: string;
+  distance: number | undefined;
   price: number;
   isBooked?: boolean;
 }
 
 const InfoActivity = ({
-  time,
-  date,
+  dateTime,
   distance,
   price,
   isBooked = false,
 }: InfoActivityProps) => {
-  const formattedDate = formatDate(date);
+  const formattedDate = formatDate(dateTime);
+  const formattedTime = formatTime(dateTime);
 
   return (
     <View className="w-full  flex flex-row justify-between items-center px-4 py-4">
       <View>
-        <Text className="text-base">{time}</Text>
+        <Text className="text-base">{formattedTime}</Text>
         <Text>{formattedDate}</Text>
       </View>
       <View>

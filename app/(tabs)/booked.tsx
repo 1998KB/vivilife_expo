@@ -1,6 +1,6 @@
 // src/screens/Booked.tsx
 import React, { useState } from "react";
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import GradientBackground from "@/components/layouts/GradientBackground";
 import { useBookedActivities } from "@/hooks/useBookedActivities";
 import BookedActivityList from "@/components/tabBooked/BookedActivityList";
@@ -14,20 +14,22 @@ export default function Booked() {
   const filteredActivities = useBookedActivities(bookedSortingOptions);
 
   return (
-    <View className="flex-1 items-center h-full">
+    <SafeAreaView className="flex-1 items-center h-full">
       <GradientBackground />
-      <BookedSortingOptions
-        bookedSortingOptions={bookedSortingOptions}
-        setBookedSortingOptions={setBookedSortingOptions}
-      />
-      {filteredActivities.length > 0 ? (
-        <BookedActivityList
-          activities={filteredActivities}
-          type={bookedSortingOptions}
+      <View className="flex-1 items-center ">
+        <BookedSortingOptions
+          bookedSortingOptions={bookedSortingOptions}
+          setBookedSortingOptions={setBookedSortingOptions}
         />
-      ) : (
-        <EmptyBookedMessage sortingOption={bookedSortingOptions} />
-      )}
-    </View>
+        {filteredActivities.length > 0 ? (
+          <BookedActivityList
+            activities={filteredActivities}
+            type={bookedSortingOptions}
+          />
+        ) : (
+          <EmptyBookedMessage sortingOption={bookedSortingOptions} />
+        )}
+      </View>
+    </SafeAreaView>
   );
 }

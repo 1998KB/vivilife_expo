@@ -1,19 +1,19 @@
-import React, { useContext, useState } from "react";
-import { View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View, ActivityIndicator } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import GradientBackground from "@/components/layouts/GradientBackground";
-import { DataContext } from "@/contexts/dataContext";
+import { DataContext } from "@/contexts/dataProvider";
 import { Activity } from "@/types";
 import { getSwiperConfig } from "@/hooks/getSwiperConfig";
-import { filterDiscoverActivities } from "@/utils/filters/filterDiscoverActivities";
 import ActivitySwipingCard from "@/components/tabDiscover/ActivitySwipingCard";
+import { SafeAreaView } from "react-native";
+import { filterDiscoverActivities } from "@/utils/filters/filterDiscoverActivities";
+import Toast from "react-native-toast-message";
 
 export default function Discover() {
-  const { setDataActivities, dataActivities } = useContext(DataContext);
+  const { discoverActivities, setDiscoverActivities } = useContext(DataContext);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [activities, setActivities] = useState(
-    filterDiscoverActivities(dataActivities)
-  );
+
   const [cardDimensions, setCardDimensions] = useState<{
     width: number;
     height: number;
@@ -23,31 +23,39 @@ export default function Discover() {
   });
 
   const swiperConfig = getSwiperConfig({
-    activities,
-    currentIndex,
+    discoverActivities,
+    setDiscoverActivities,
     cardDimensions,
+    currentIndex,
     setCurrentIndex,
-    setDataActivities,
-    dataActivities,
-    setActivities,
   });
 
   return (
-    <View className="h-screen w-screen mt-4">
+    <SafeAreaView className="flex-1 h-full w-full">
       <GradientBackground />
-      <Swiper
-        renderCard={(card: Activity) => {
-          return (
-            <ActivitySwipingCard
-              key={card.id}
-              card={card}
-              cardDimensions={cardDimensions}
-              setCardDimensions={setCardDimensions}
-            />
-          );
-        }}
-        {...swiperConfig}
-      />
-    </View>
+      <View className="mt-9 flex-1 justify-center items-center">
+        {discoverActivities.length > 0 ? (
+          <Swiper
+            renderCard={(card: Activity) => (
+              <ActivitySwipingCard
+                key={card.id}
+                card={card}
+                cardDimensions={cardDimensions}
+                setCardDimensions={setCardDimensions}
+              />
+            )}
+            {...swiperConfig}
+          />
+        ) : (
+          <ActivityIndicator size="large" color="#094505" />
+          // <LottieView
+          //   source={Gif}
+          //   autoPlay
+          //   loop
+          //   style={{ width: 200, height: 200 }}
+          // />
+        )}
+      </View>
+    </SafeAreaView>
   );
 }

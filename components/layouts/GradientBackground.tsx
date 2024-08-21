@@ -5,9 +5,9 @@ const GradientBackground = () => {
   return (
     <LinearGradient
       colors={[
-        "rgba(155, 236, 0, 0.3)",
-        "rgba(155, 236, 0, 0.25)",
-        "rgba(155, 236, 0, 0.01)",
+        "rgba(155, 236, 0, 0.1)",
+        "rgba(155, 236, 0, 0.1)",
+        "rgba(155, 236, 0, 0.1)",
       ]}
       start={{ x: 0, y: 1 }}
       end={{ x: 0, y: 0 }}

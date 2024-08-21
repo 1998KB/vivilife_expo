@@ -11,7 +11,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        customGreen: "rgba(5,146,18,0.5)",
+        customGreen: "rgba(9, 69, 5, .5)",
+        customGreenTab: "rgba(9, 69, 5, .3)",
         darkGreen: "#059212",
         yellow: "#F3FF90",
         lightGreen: "#9BEC00",

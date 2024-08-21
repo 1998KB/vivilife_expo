@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/walk.gif",
-      "resizeMode": "resize",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {

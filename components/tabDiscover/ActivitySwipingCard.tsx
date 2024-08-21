@@ -31,21 +31,20 @@ const ActivitySwipingCard = ({
       >
         <View
           onLayout={handleLayout}
-          className=" w-full rounded-xl overflow-hidden border border-opacity-5 border-stone-400 "
+          className=" w-full rounded-xl overflow-hidden border border-opacity-5 border-stone-400  "
         >
-          <ImageWithGradient imageUri={card.imageUri} />
+          <ImageWithGradient imageUri={card.imageUrl} />
           <InfoActivitySwiping card={card} setModalVisible={() => {}} />
         </View>
       </Pressable>
       <Modal
         visible={modalVisible}
-        transparent={true}
         animationType="slide"
         onRequestClose={() => setModalVisible(false)}
         className=""
       >
         <ImageWithGradient
-          imageUri={card.imageUri}
+          imageUri={card.imageUrl}
           gradientColors={[
             "rgba(0,0,0,.8)",
             "rgba(0,0,0,0.7)",

@@ -6,7 +6,7 @@ import ActivityLikedCard from "./ActivityLikedCard";
 
 interface ActivityListProps {
   activities: Activity[];
-  onToggleLike: (id: number) => void;
+  onToggleLike: (id: string) => void;
 }
 
 const LikedActivityList = ({ activities, onToggleLike }: ActivityListProps) => (
@@ -15,13 +15,13 @@ const LikedActivityList = ({ activities, onToggleLike }: ActivityListProps) => (
     contentContainerStyle={{
       width: "100%",
       paddingTop: 65,
-      paddingBottom: 110,
+      paddingBottom: 10,
     }}
     showsVerticalScrollIndicator={false}
   >
     {activities.map((activity) => (
       <ActivityLikedCard
-        key={activity.id}
+        key={activity.title}
         activity={activity}
         onToggleLike={onToggleLike}
       />

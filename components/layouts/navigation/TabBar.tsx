@@ -24,8 +24,8 @@ const labels: { [key in RouteName]: string } = {
 
 function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   return (
-    <View className="absolute w-full bottom-8 justify-center items-center">
-      <View className="flex flex-row w-11/12 py-3 bg-gray-50 border border-gray-200 rounded-xl shadow-xl">
+    <View className=" bg-customGreenTab felx justify-center items-center w-full ">
+      <View className="flex w-11/12  flex-row items-start  pt-3  h-20    ">
         {state.routes.map((route, index) => {
           if (
             !icons[route.name as RouteName] ||
@@ -60,14 +60,14 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
               accessibilityLabel={options.tabBarAccessibilityLabel}
               testID={options.tabBarTestID}
               onPress={onPress}
-              className="flex-1 justify-center items-center gap-1"
+              className="flex-1 justify-center items-center "
             >
               {IconComponent({
-                color: isFocused ? "#059212" : "rgba(5,146,18,.5)",
+                color: isFocused ? "#094505" : "rgba(9, 69, 5, .5)",
               })}
               <Text
                 className={`text-xs ${
-                  isFocused ? "text-darkGreen" : "text-customGreen"
+                  isFocused ? "#094505" : "text-customGreen"
                 }`}
               >
                 {labels[route.name as RouteName]}

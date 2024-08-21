@@ -1,9 +1,9 @@
 import React from "react";
 import { View } from "react-native";
 import { Activity } from "@/types";
-import { formatDate } from "@/utils/datesManipulation";
 import RegularView from "./RegularView";
 import FullscreenView from "./FullscreenView";
+import { formatDate } from "@/utils/datesTimeManipulation";
 
 interface InfoActivitySwipingProps {
   card: Activity;
@@ -16,14 +16,12 @@ const InfoActivitySwiping = ({
   fullscreen = false,
   setModalVisible,
 }: InfoActivitySwipingProps) => {
-  const formattedDate = formatDate(card.date);
-
   return (
     <View className="h-full">
       {fullscreen ? (
         <FullscreenView card={card} setModalVisible={setModalVisible} />
       ) : (
-        <RegularView card={card} formattedDate={formattedDate} />
+        <RegularView card={card} />
       )}
     </View>
   );

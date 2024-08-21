@@ -13,7 +13,7 @@ interface BookedCardProps {
 
 const ActivityBookedCard = ({ activity, type }: BookedCardProps) => {
   return (
-    <View className="bg-white rounded-xl w-11/12 mb-4">
+    <View className="bg-gray-50 rounded-xl w-11/12 mb-4">
       <HeaderActivtyBookedCard
         type={type}
         peopleBooked={activity.peopleBooked}

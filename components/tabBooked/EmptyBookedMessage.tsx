@@ -8,21 +8,17 @@ interface EmptyStateProps {
 }
 
 const EmptyBookedMessage = ({ sortingOption }: EmptyStateProps) => {
-  const router = useRouter();
-
   const message =
     sortingOption === "attended"
       ? "No activities attended"
       : "No activity booked";
 
   return (
-    <View className="flex-1 justify-center items-center">
-      <Text className="text-darkerGreen text-base font-medium my-4">
-        {message}
-      </Text>
+    <View className="flex-1 items-center justify-center gap-4">
+      <Text className="text-darkerGreen text-base font-medium ">{message}</Text>
       <Link href={"/discover"}>
-        <View className="px-8  bg-darkerGreen h-14 rounded-xl flex flex-row justify-center items-center">
-          <Text className="text-lightGreen text-xl font-medium">
+        <View className="px-8 py-4   bg-darkerGreen  rounded-xl flex flex-row justify-center items-center">
+          <Text className="text-yellow text-lg font-medium">
             Discover activities
           </Text>
         </View>

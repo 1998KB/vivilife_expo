@@ -1,11 +1,13 @@
-export const formatDate = (isoDate: string): string => {
-  const date = new Date(isoDate);
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+
+  if (isNaN(date.getTime())) {
+    throw new TypeError("Invalid date string provided");
+  }
+
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
-
-  const oneWeekLater = new Date(today);
-  oneWeekLater.setDate(today.getDate() + 7);
 
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -30,7 +32,7 @@ export const formatDate = (isoDate: string): string => {
   startOfNextWeek.setDate(endOfWeek.getDate() + 1);
 
   const endOfNextWeek = new Date(startOfNextWeek);
-  endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
+  endOfNextWeek.setDate(endOfNextWeek.getDate() + 6);
 
   const isNextWeek = date >= startOfNextWeek && date <= endOfNextWeek;
 
@@ -60,8 +62,24 @@ export const formatDate = (isoDate: string): string => {
   }
 };
 
-export const isDateInPast = (dateStr: string): boolean => {
+export const formatTime = (dateString: string): string => {
+  const date = new Date(dateString);
+
+  if (isNaN(date.getTime())) {
+    throw new TypeError("Invalid date string provided");
+  }
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  // Format hours and minutes with leading zeros
+  const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+
+  return formattedTime;
+};
+
+export const isDateInPast = (date: string): boolean => {
   const today = new Date();
-  const activityDate = new Date(dateStr);
+  const activityDate = new Date(date);
   return activityDate < today;
 };

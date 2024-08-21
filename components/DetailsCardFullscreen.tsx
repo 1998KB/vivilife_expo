@@ -43,9 +43,8 @@ const DetailsCardFullscreen = ({ card }: InfoCardFullscreenProp) => {
       </View>
       <View className="mb-6 mx-4 rounded-xl bg-white">
         <InfoActivity
-          time={card.time}
+          dateTime={card.dateTime}
           distance={card.distance}
-          date={card.date}
           price={card.price}
         />
       </View>
@@ -57,7 +56,7 @@ const DetailsCardFullscreen = ({ card }: InfoCardFullscreenProp) => {
       {showMoreInfo === true && (
         <Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
           <Text className="text-gray-300 text-lg font-medium text-left  px-4">
-            {card.furtherInformation}
+            {card.furtherInformations}
           </Text>
         </Animated.View>
       )}

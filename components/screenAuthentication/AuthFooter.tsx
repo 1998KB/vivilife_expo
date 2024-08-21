@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Pressable } from "react-native";
+import { Text, View, Pressable, TouchableOpacity } from "react-native";
 
 interface AuthFooterProps {
   isLogin: boolean;
@@ -14,13 +14,13 @@ const AuthFooter: React.FC<AuthFooterProps> = ({
   onSubmit,
   buttonText,
 }) => (
-  <View className="mt-6 items-center">
-    <Pressable
+  <View className="mt-10 items-center">
+    <TouchableOpacity
       onPress={onSubmit}
-      className="w-full p-2 bg-lightGreen h-12 rounded-xl flex flex-row justify-center items-center"
+      className="w-full p-2 bg-darkerGreen h-14 rounded-xl flex flex-row justify-center items-center"
     >
-      <Text className="text-darkerGreen text-lg font-medium">{buttonText}</Text>
-    </Pressable>
+      <Text className="text-yellow text-lg font-medium">{buttonText}</Text>
+    </TouchableOpacity>
     <View className="flex flex-row justify-center items-center mt-4">
       <Text className="text-darkerGreen text-sm font-medium">
         {isLogin

@@ -8,10 +8,7 @@ interface AuthHeaderProps {
 }
 
 const AuthHeader: React.FC<AuthHeaderProps> = ({ isLogin }) => (
-  <View className="mb-6 relative">
-    <Link href={".."} className="absolute z-10 top-2  ">
-      <Ionicons name="arrow-back" size={24} color="#094505" />
-    </Link>
+  <View className="mb-10 relative">
     <Text className="text-4xl font-bold mb-1 text-center text-darkerGreen">
       {isLogin ? "Welcome Back" : "Sign up"}
     </Text>

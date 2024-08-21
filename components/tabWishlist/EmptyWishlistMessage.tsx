@@ -8,8 +8,8 @@ const EmptyWishlistMessage = () => (
       No activities in your wishlist
     </Text>
     <Link href={"/discover"}>
-      <View className="px-8 bg-darkerGreen h-14 rounded-xl flex flex-row justify-center items-center">
-        <Text className="text-lightGreen text-xl font-medium">
+      <View className="px-8 py-4  bg-darkerGreen rounded-xl flex flex-row justify-center items-center">
+        <Text className="text-yellow text-lg font-medium">
           Discover activities
         </Text>
       </View>

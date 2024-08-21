@@ -1,23 +1,35 @@
-import React, { useContext } from "react";
-import { View, Text, Pressable, Image } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { DataContext } from "@/contexts/dataContext";
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, Pressable } from "react-native";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { DataContext } from "@/contexts/dataProvider";
 import DetailsCardFullscreen from "@/components/DetailsCardFullscreen";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { auth } from "../../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ImageWithGradient from "@/components/layouts/ImageWithGradient";
+import { Activity } from "@/types";
+import { useUsersApi } from "@/services/api/usersApi";
+import { useAuth } from "@/contexts/authProvider";
 
 const Booking = () => {
   const router = useRouter();
   const params = useLocalSearchParams();
-  const { id } = params;
+  const { activity, origin } = params;
+  const { setWishlistActivities, setDiscoverActivities } =
+    useContext(DataContext);
+  const [activityCard, setActivityCard] = useState<Activity | null>(null);
+  const { currentUser } = useAuth();
+  const usersApi = useUsersApi();
 
-  const { dataActivities, setDataActivities } = useContext(DataContext);
-
-  const activityCard = dataActivities.find(
-    (activity) => activity.id === Number(id)
-  );
+  useEffect(() => {
+    if (activity) {
+      try {
+        const parsedActivity = JSON.parse(activity as string) as Activity;
+        setActivityCard(parsedActivity);
+      } catch (error) {
+        console.error("Error parsing activity data:", error);
+      }
+    }
+  }, [activity]);
 
   if (!activityCard) {
     return (
@@ -28,56 +40,42 @@ const Booking = () => {
   }
 
   const handleConfirmBooking = async () => {
-    console.log(auth.currentUser?.email);
-    if (!auth.currentUser) {
+    if (!currentUser) {
       router.push("/authentication");
       return;
     }
-
-    const updatedActivities = dataActivities.map((activity) =>
-      activity.id === Number(id)
-        ? {
-            ...activity,
-            booked: true,
-            deck: false,
-            peopleBooked: activity.peopleBooked + 1,
-          }
-        : activity
-    );
-
-    setDataActivities(updatedActivities);
-    router.push("/booked");
+    router.replace("/booked");
   };
 
   const handleWishlistSaving = async () => {
-    const updatedActivities = dataActivities.map((activity) =>
-      activity.id === Number(id)
-        ? { ...activity, wishlist: true, liked: true, deck: false }
-        : activity
-    );
-    setDataActivities(updatedActivities);
-    try {
-      await AsyncStorage.setItem(
-        "dataActivities",
-        JSON.stringify(updatedActivities)
-      );
-      console.log("Data saved AsyncStorage:");
-    } catch (error) {
-      console.error("Error saving data to AsyncStorage:", error);
-    }
-    const storedData = await AsyncStorage.getItem("dataActivities");
-    console.log(storedData);
-    router.push("/wishlist");
-  };
+    const updatedActivityCard = { ...activityCard, liked: true };
 
-  const handleBack = () => {
-    router.push("/wishlist");
+    if (currentUser) {
+      await usersApi.addToWishlist(currentUser?.uid, updatedActivityCard);
+    } else {
+      try {
+        const storedData = await AsyncStorage.getItem("savedActivities");
+        const savedActivities = storedData ? JSON.parse(storedData) : [];
+        const updatedActivities = [...savedActivities, updatedActivityCard];
+        await AsyncStorage.setItem(
+          "savedActivities",
+          JSON.stringify(updatedActivities)
+        );
+      } catch (error) {
+        console.error("Error saving data to AsyncStorage:", error);
+      }
+    }
+    setWishlistActivities((prevWishlist) => [
+      ...prevWishlist,
+      updatedActivityCard,
+    ]);
+    router.back();
   };
 
   return (
     <View className="w-screen h-screen absolute bottom-0 justify-center items-left ">
       <ImageWithGradient
-        imageUri={activityCard.imageUri}
+        imageUri={activityCard.imageUrl}
         gradientColors={[
           "rgba(0,0,0,.8)",
           "rgba(0,0,0,0.6)",
@@ -88,35 +86,37 @@ const Booking = () => {
 
       <DetailsCardFullscreen card={activityCard} />
       <View className="flex flex-row justify-between px-4 mt-10">
-        <Pressable
+        <TouchableOpacity
+          activeOpacity={0.8}
           onPress={handleConfirmBooking}
-          className="w-full p-2 bg-lightGreen  h-14 rounded-xl flex flex-row justify-center items-center    "
+          className="w-full p-2 bg-lightGreen h-14 rounded-xl flex flex-row justify-center items-center"
         >
-          <Text className="text-darkerGreen text-base font-medium ">
+          <Text className="text-darkerGreen text-base font-medium">
             Book now
           </Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
-      {activityCard.wishlist === false && (
+      {origin === "discover" ? (
         <View className="flex items-center mt-6">
-          <Pressable
+          <TouchableOpacity
+            activeOpacity={0.6}
             onPress={handleWishlistSaving}
-            className=" w-20 h-20 p-4 border-2 border-lightGreen  rounded-full flex flex-row justify-center items-center "
+            className="w-16 h-16 p-4 border-2 border-lightGreen rounded-full flex flex-row justify-center items-center"
           >
-            <AntDesign name="heart" size={32} color="#9BEC00" />
-          </Pressable>
+            <AntDesign name="heart" size={24} color="#9BEC00" />
+          </TouchableOpacity>
+          <Text className="text-lightGreen mt-2">Save to wishlist</Text>
         </View>
-      )}
-      {activityCard.wishlist !== false && (
+      ) : origin === "wishlist" ? (
         <Pressable
-          onPress={handleBack}
-          className="p-3  h-14 rounded-xl flex flex-row justify-center items-center"
+          onPress={() => router.back()}
+          className="p-3 h-14 rounded-xl flex flex-row justify-center items-center"
         >
-          <Text className="text-lightGreen font-medium text-lg underline ">
+          <Text className="text-lightGreen font-medium text-lg underline">
             Go back to wishlist
           </Text>
         </Pressable>
-      )}
+      ) : null}
     </View>
   );
 };

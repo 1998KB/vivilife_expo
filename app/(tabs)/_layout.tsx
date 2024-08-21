@@ -1,7 +1,7 @@
 import React from "react";
 import { Tabs } from "expo-router";
-import TabBar from "@/components/navigation/TabBar";
 import Header from "@/components/layouts/Header";
+import TabBar from "@/components/layouts/navigation/TabBar";
 
 export default function TabLayout() {
   return (
@@ -11,8 +11,9 @@ export default function TabLayout() {
         options={{
           title: "Discover",
           headerTitle: () => <Header />,
+          // headerTransparent: true,
           headerStyle: {
-            backgroundColor: "transparent",
+            backgroundColor: "rgba(9, 69, 5, .3)",
           },
         }}
       />
@@ -21,8 +22,9 @@ export default function TabLayout() {
         options={{
           title: "Wishlist",
           headerTitle: () => <Header />,
+          // headerTransparent: true,
           headerStyle: {
-            backgroundColor: "transparent",
+            backgroundColor: "rgba(9, 69, 5, .3)",
           },
         }}
       />
@@ -31,8 +33,9 @@ export default function TabLayout() {
         options={{
           title: "Booked",
           headerTitle: () => <Header />,
+          // headerTransparent: true,
           headerStyle: {
-            backgroundColor: "transparent",
+            backgroundColor: "rgba(9, 69, 5, .3)",
           },
         }}
       />
