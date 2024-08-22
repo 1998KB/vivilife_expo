@@ -17,8 +17,8 @@ const RegularView = ({ card }: { card: Activity }) => {
           <Text className="text-yellow font-bold text-lg">{formattedTime}</Text>
         </View>
       </View>
-      <View className="absolute bottom-8 left-0 right-0 flex items-center justify-center flex-row gap-2">
-        <Text className="text-yellow text-3xl font-bold">{card.title}</Text>
+      <View className="absolute bottom-4 left-0 right-0 flex items-center justify-center flex-row gap-2">
+        <Text className="text-yellow text-3xl font-semibold">{card.title}</Text>
       </View>
     </>
   );
