@@ -10,7 +10,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
+      colors: {     
         customGreen: "rgba(9, 69, 5, .5)",
         customGreenTab: "rgba(9, 69, 5, .3)",
         darkGreen: "#059212",

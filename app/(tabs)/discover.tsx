@@ -33,7 +33,8 @@ export default function Discover() {
   return (
     <SafeAreaView className="flex-1 h-full w-full">
       <GradientBackground />
-      <View className="mt-9 flex-1 justify-center items-center">
+      {/* todo */}
+      <View className="flex-1 justify-center items-center">
         {discoverActivities.length > 0 ? (
           <Swiper
             renderCard={(card: Activity) => (

@@ -6,7 +6,6 @@ export default function index() {
   return (
     <View>
       <GradientBackground />
-
       <Redirect href={"/discover"} />
     </View>
   );

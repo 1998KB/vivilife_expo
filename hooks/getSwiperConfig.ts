@@ -19,7 +19,7 @@ export const getSwiperConfig = ({
 }: SwiperConfigProps) => ({
   cards: discoverActivities,
   backgroundColor: "transparent",
-  stackSize: 3,
+  stackSize: 2,
   stackScale: 10,
   stackSeparation: 0,
   verticalSwipe: false,

@@ -19,7 +19,7 @@ const ActivityBookedCard = ({ activity, type }: BookedCardProps) => {
         peopleBooked={activity.peopleBooked}
       />
       <ImageActivityInfo
-        imageUri={activity.imageUri}
+        imageUri={activity.imageUrl}
         title={activity.title}
         description={activity.description}
         height={260}
