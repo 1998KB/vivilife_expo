@@ -12,8 +12,7 @@ const DetailsCardFullscreen = ({ card }: InfoCardFullscreenProp) => {
   const animatedHeight = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // Determine the height to animate to based on showMoreInfo
-    const height = showMoreInfo ? 130 : 0;
+    const height = showMoreInfo ? 130 : 0; // Adjust the height based on the showMoreInfo state
 
     // Animate to the desired height
     Animated.timing(animatedHeight, {
@@ -28,9 +27,9 @@ const DetailsCardFullscreen = ({ card }: InfoCardFullscreenProp) => {
   };
 
   return (
-    <View className="">
+    <View>
       <View>
-        <Text className="text-gray-300 text-lg font-medium text-left mb-2 px-4 ">
+        <Text className="text-gray-300 text-lg font-medium text-left mb-2 px-4">
           {card.location}
         </Text>
         <Text className="text-yellow text-3xl font-bold text-left mb-2 px-4">
@@ -49,18 +48,19 @@ const DetailsCardFullscreen = ({ card }: InfoCardFullscreenProp) => {
         />
       </View>
       <View>
-        <Text className="text-white text-2xl font-medium text-left mb-2  px-4">
+        <Text className="text-white text-2xl font-medium text-left mb-2 px-4">
           {card.description}
         </Text>
       </View>
-      {showMoreInfo === true && (
-        <Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
-          <Text className="text-gray-300 text-lg font-medium text-left  px-4">
-            {card.furtherInformations}
-          </Text>
-        </Animated.View>
-      )}
-      <TouchableOpacity onPress={toggleMoreInfo} className=" px-4  ">
+
+      {/* Always render the Animated.View */}
+      <Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
+        <Text className="text-gray-300 text-lg font-medium text-left px-4">
+          {card.furtherInformations}
+        </Text>
+      </Animated.View>
+
+      <TouchableOpacity onPress={toggleMoreInfo} className="px-4">
         <Text className="text-gray-300 text-lg font-medium underline">
           {showMoreInfo ? "Show Less Information" : "Show More Information"}
         </Text>

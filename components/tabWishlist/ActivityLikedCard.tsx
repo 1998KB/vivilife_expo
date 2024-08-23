@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View } from "react-native";
+import React, { useState, useRef } from "react";
+import { Animated, Pressable, View, StyleSheet } from "react-native";
 import BookButtonActivityLiked from "./BookButtonActivityLiked";
 import { Activity } from "@/types";
 import ImageActivityInfo from "../ImageActivityInfo";
@@ -17,6 +17,8 @@ const ActivityLikedCard = ({
   activity,
   onToggleLike,
 }: ActivityLikedCardProps) => {
+  const [expanded, setExpanded] = useState(false);
+  const heightAnim = useRef(new Animated.Value(180)).current;
   const [liked, setLiked] = useState(activity.liked);
   const userApi = useUsersApi();
   const { currentUser } = useAuth();
@@ -64,21 +66,36 @@ const ActivityLikedCard = ({
     }
   };
 
+  const handlePress = () => {
+    const newHeight = expanded ? 180 : 220;
+    setExpanded(!expanded);
+
+    Animated.timing(heightAnim, {
+      toValue: newHeight,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  };
+
   return (
-    <View className="bg-gray-50 rounded-xl w-11/12  flex flex-col justify-between relative overflow-hidden mb-4">
-      <ImageActivityInfo
-        imageUri={activity.imageUrl}
-        title={activity.title}
-        description={activity.description}
-        isLiked={liked}
-        onToggleLike={handleToggleLike}
-        height={180}
-      />
-      <InfoActivity
-        dateTime={activity.dateTime}
-        distance={activity.distance}
-        price={activity.price}
-      />
+    <View className="bg-gray-50 rounded-xl w-11/12 flex flex-col justify-between relative overflow-hidden mb-4">
+      <Pressable onPress={handlePress}>
+        <ImageActivityInfo
+          imageUri={activity.imageUrl}
+          title={activity.title}
+          description={activity.description}
+          isLiked={liked}
+          onToggleLike={handleToggleLike}
+          height={heightAnim}
+          expanded={expanded}
+          furtherInfo={activity.furtherInformations}
+        />
+        <InfoActivity
+          dateTime={activity.dateTime}
+          distance={activity.distance}
+          price={activity.price}
+        />
+      </Pressable>
       <BookButtonActivityLiked
         peopleBooked={activity.peopleBooked}
         activity={activity}

@@ -21,7 +21,7 @@ const LikedActivityList = ({ activities, onToggleLike }: ActivityListProps) => (
   >
     {activities.map((activity) => (
       <ActivityLikedCard
-        key={activity.title}
+        key={activity.id}
         activity={activity}
         onToggleLike={onToggleLike}
       />

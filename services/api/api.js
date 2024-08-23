@@ -3,8 +3,8 @@ import Toast from "react-native-toast-message";
 import { auth } from "@/firebase";
 
 const api = axios.create({
-  // baseURL: "https://us-central1-vivilife-f75b9.cloudfunctions.net/app",
-  baseURL: "http://localhost:3212/",
+  baseURL: "https://us-central1-vivilife-f75b9.cloudfunctions.net/app",
+  // baseURL: "http://localhost:3212/",
 });
 
 api.interceptors.request.use(async (config) => {
