@@ -25,10 +25,7 @@ const ActivitySwipingCard = ({
 
   return (
     <>
-      <Pressable
-        style={{ height: "70%" }}
-        onPress={() => setModalVisible(true)}
-      >
+      <Pressable onPress={() => setModalVisible(true)}>
         <View
           onLayout={handleLayout}
           className=" w-full rounded-xl overflow-hidden border border-opacity-5 border-stone-400  "

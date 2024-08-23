@@ -25,8 +25,7 @@ const ActivityBookedCard = ({ activity, type }: BookedCardProps) => {
         height={260}
       />
       <InfoActivity
-        time={activity.time}
-        date={activity.date}
+        dateTime={activity.dateTime}
         distance={activity.distance}
         price={activity.price}
         isBooked={activity.booked}

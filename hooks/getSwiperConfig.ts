@@ -4,18 +4,16 @@ import { handleSwipeRight } from "@/utils/swiper/handelSwipeRight";
 
 interface SwiperConfigProps {
   discoverActivities: Activity[];
-  setDiscoverActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
-  currentIndex: number;
+  currentCardIndex: number;
   cardDimensions: { width: number; height: number };
-  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentCardIndex: (index: number) => void;
 }
 
 export const getSwiperConfig = ({
   discoverActivities,
-  currentIndex,
+  currentCardIndex,
   cardDimensions,
-  setCurrentIndex,
-  setDiscoverActivities,
+  setCurrentCardIndex,
 }: SwiperConfigProps) => ({
   cards: discoverActivities,
   backgroundColor: "transparent",
@@ -23,9 +21,20 @@ export const getSwiperConfig = ({
   stackScale: 10,
   stackSeparation: 0,
   verticalSwipe: false,
-  onSwiped: () => setCurrentIndex(currentIndex + 1),
+  onSwiped: () => setCurrentCardIndex(currentCardIndex + 1),
   overlayLabels: OverlayLabels(cardDimensions),
-  onSwipedRight: handleSwipeRight(discoverActivities, currentIndex),
-  marginTop: 0,
+  onSwipedRight: handleSwipeRight(discoverActivities, currentCardIndex),
   cardVerticalMargin: 0,
+  cardHorizontalMargin: 0,
+  containerStyle: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    width: "100%",
+  },
+  cardStyle: {
+    width: "100%",
+    height: "100%",
+  },
 });

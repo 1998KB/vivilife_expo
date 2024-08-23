@@ -13,6 +13,13 @@ export default function RootLayout() {
           <ActionSheetProvider>
             <Stack>
               <Stack.Screen
+                name="(modals)"
+                options={{
+                  headerShown: false,
+                  presentation: "modal",
+                }}
+              />
+              <Stack.Screen
                 name="(tabs)"
                 options={{
                   headerShown: false,
@@ -22,14 +29,6 @@ export default function RootLayout() {
                 name="(screens)"
                 options={{
                   headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="settings"
-                options={{
-                  headerShown: false,
-                  presentation: "modal",
-                  gestureEnabled: true,
                 }}
               />
             </Stack>

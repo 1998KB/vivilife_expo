@@ -2,8 +2,8 @@ import { auth } from "@/firebase";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://us-central1-vivilife-f75b9.cloudfunctions.net/app",
-  // baseURL: "http://localhost:3212/",
+  // baseURL: "https://us-central1-vivilife-f75b9.cloudfunctions.net/app",
+  baseURL: "http://localhost:3212/",
 });
 
 api.interceptors.request.use(async (config) => {
@@ -44,7 +44,7 @@ export const useUsersApi = () => {
       activityId: activity.id,
       liked: activity.liked,
     });
-    console.log("addd ", activity.liked);
+    activity.liked;
     return response.data;
   };
 
