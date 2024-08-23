@@ -24,9 +24,12 @@
     "@gorhom/bottom-sheet": "^4.6.4",
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-native-community/datetimepicker": "^8.2.0",
+    "@react-native-community/slider": "4.5.2",
     "@react-navigation/native": "^6.0.2",
+    "@stripe/stripe-react-native": "0.37.2",
     "antd": "^5.20.1",
     "axios": "^1.7.4",
+    "dotenv": "^16.4.5",
     "expo": "~51.0.24",
     "expo-blur": "^13.0.2",
     "expo-constants": "~16.0.2",
@@ -62,8 +65,7 @@
     "react-native-screens": "3.31.1",
     "react-native-toast-message": "^2.2.0",
     "react-native-web": "~0.19.10",
-    "tailwind-rn": "^4.2.0",
-    "@stripe/stripe-react-native": "0.37.2"
+    "tailwind-rn": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

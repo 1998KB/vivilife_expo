@@ -114,6 +114,27 @@ export const useApi = () => {
     return data;
   };
 
+  const fetchPaymentIntentClientSecret = async (activityCheckout, user) => {
+    try {
+      console.log(activityCheckout);
+      const response = await api.post(
+        "create-payment-intent",
+        { activityCheckout, user: user },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const { clientSecret, customerId } = response.data;
+      console.log("HEREEE ", customerId);
+      return { clientSecret, customerId };
+    } catch (error) {
+      console.error("Error fetching client secret:", error);
+      throw error;
+    }
+  };
+
   return {
     get,
     post,
@@ -121,5 +142,6 @@ export const useApi = () => {
     del,
     byId,
     query,
+    fetchPaymentIntentClientSecret,
   };
 };

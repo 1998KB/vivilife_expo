@@ -43,7 +43,7 @@ const ImageActivityInfo = ({
   }, [expanded]);
 
   return (
-    <Animated.View style={{ height }} className="relative">
+    <Animated.View style={{ height }} className="relative m-1">
       <ImageWithGradient
         imageUri={imageUri}
         gradientColors={[

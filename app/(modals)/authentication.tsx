@@ -25,14 +25,18 @@ const Authentication: React.FC = () => {
 
   const handleSubmit = async () => {
     login ? await signIn(email, password) : await signUp(email, password);
-    if (auth.currentUser) {
+    if (auth.currentUser && login) {
       setTimeout(() => {
         if (from === "settings") {
-          console.log("HEEEERE");
           router.navigate("/discover");
         } else {
           router.back();
         }
+      }, 1500);
+    }
+    if (auth.currentUser && !login) {
+      setTimeout(() => {
+        router.navigate("/questionnaire");
       }, 1500);
     }
   };

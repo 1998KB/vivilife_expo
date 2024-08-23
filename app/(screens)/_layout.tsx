@@ -12,7 +12,7 @@ const _layout = () => {
         }}
       />
       <Stack.Screen
-        name="checkout"
+        name="questionnaire"
         options={{
           headerShown: false,
           presentation: "card",

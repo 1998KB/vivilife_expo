@@ -15,6 +15,8 @@ import ImageWithGradient from "@/components/layouts/ImageWithGradient";
 import { Activity } from "@/types";
 import { useUsersApi } from "@/services/api/usersApi";
 import { useAuth } from "@/contexts/authProvider";
+import { useStripe } from "@stripe/stripe-react-native";
+import { useApi } from "@/services/api/api";
 
 const Booking = () => {
   const router = useRouter();
@@ -24,6 +26,63 @@ const Booking = () => {
   const [activityCard, setActivityCard] = useState<Activity | null>(null);
   const { currentUser } = useAuth();
   const usersApi = useUsersApi();
+  const api = useApi();
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  if (!currentUser) {
+  }
+  const setup = async () => {
+    if (!activityCard || !currentUser) return;
+
+    const activityCheckout = [
+      { id: activityCard.title, amount: activityCard.price * 100 },
+    ];
+    const user = await api.byId("users", currentUser?.uid);
+
+    try {
+      const { clientSecret, customerId } =
+        await api.fetchPaymentIntentClientSecret(activityCheckout, user);
+
+      if (!user.customerId) {
+        await api.patch("users", currentUser?.uid, { customerId: customerId });
+      }
+      if (!clientSecret) {
+        console.error("Failed to fetch client secret");
+        return;
+      }
+
+      const { error } = await initPaymentSheet({
+        merchantDisplayName: "ACTIVITY",
+        paymentIntentClientSecret: clientSecret,
+        returnURL: "yourapp://stripe-redirect",
+      });
+
+      if (error) {
+        console.error("Error initializing payment sheet:", error);
+      }
+    } catch (error) {
+      console.error("Error in setup:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (activityCard) {
+      setup();
+    }
+  }, [activityCard, currentUser]);
+
+  const checkout = async () => {
+    const { error } = await presentPaymentSheet();
+    if (!currentUser) {
+      router.push("/questionnaire");
+      return;
+    }
+    // router.push("/checkout");
+    if (error) {
+      // handle error
+    } else {
+      // success
+    }
+  };
 
   useEffect(() => {
     if (activity) {
@@ -46,10 +105,10 @@ const Booking = () => {
 
   const handleConfirmBooking = async () => {
     if (!currentUser) {
-      router.push("/authentication");
+      router.push("/questionnaire");
       return;
     }
-    router.push("/checkout");
+    router.push("/booked");
   };
 
   const handleWishlistSaving = async () => {
@@ -92,7 +151,7 @@ const Booking = () => {
       <View className="flex flex-row justify-between px-4 mt-10">
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={handleConfirmBooking}
+          onPress={checkout}
           className="w-full p-2 bg-lightGreen h-14 rounded-xl flex flex-row justify-center items-center"
         >
           <Text className="text-darkerGreen text-base font-medium">
