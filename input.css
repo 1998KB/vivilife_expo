@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Apfel";
+  font-weight: 400;
+  src: url("assets/fonts/ApfelGrotezk-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Apfel";
+  font-weight: 500;
+  src: url("assets/fonts/ApfelGrotezk-Mittel.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Apfel";
+  font-weight: 600;
+  src: url("assets/fonts/ApfelGrotezk-Brukt.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Apfel";
+  font-weight: 700;
+  src: url("assets/fonts/ApfelGrotezk-Fett.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Apfel";
+  font-weight: 800;
+  src: url("assets/fonts/ApfelGrotezk-Satt.otf") format("opentype");
+}

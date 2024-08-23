@@ -10,7 +10,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {     
+      colors: {
         customGreen: "rgba(9, 69, 5, .5)",
         customGreenTab: "rgba(9, 69, 5, .3)",
         darkGreen: "#059212",
@@ -18,6 +18,9 @@ module.exports = {
         lightGreen: "#9BEC00",
         darkerGreen: "#094505",
         greenLowKey: "#157A6E",
+      },
+      fontFamily: {
+        sans: ["Apfel", "Helvetica", "sans-serif"],
       },
     },
   },
