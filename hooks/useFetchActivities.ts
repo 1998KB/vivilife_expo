@@ -3,6 +3,7 @@ import { Activity } from "@/types";
 import { useCalculateDistances } from "./useCalculateDistances";
 import { useApi } from "@/services/api/api";
 import { useAuth } from "@/contexts/authProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const useFetchActivities = (): Activity[] => {
   const { currentUser } = useAuth();
@@ -19,7 +20,22 @@ export const useFetchActivities = (): Activity[] => {
           "activities",
           currentUser?.uid || null
         );
-        setFetchedActivities(activityResponse);
+
+        let activities = activityResponse;
+        if (!currentUser) {
+          const storedData = await AsyncStorage.getItem("savedActivities");
+          const savedActivities = storedData ? JSON.parse(storedData) : [];
+
+          const savedActivityIds = savedActivities.map(
+            (activity: Activity) => activity.id
+          );
+
+          activities = activityResponse.filter(
+            (activity: Activity) => !savedActivityIds.includes(activity.id)
+          );
+        }
+
+        setFetchedActivities(activities);
       } catch (error) {
         console.error("Failed to fetch activities:", error);
       }

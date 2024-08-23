@@ -12,15 +12,19 @@ interface DataProviderType {
   setDiscoverActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
   setWishlistActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
   setBookedActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
+  currentCardIndex: number;
+  setCurrentCardIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const defaultProviderValue: DataProviderType = {
   discoverActivities: [],
   wishlistActivities: [],
   bookedActivities: [],
+  currentCardIndex: 0,
   setDiscoverActivities: () => {},
   setWishlistActivities: () => {},
   setBookedActivities: () => {},
+  setCurrentCardIndex: () => {},
 };
 
 export const DataContext =
@@ -33,16 +37,17 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   const [discoverActivities, setDiscoverActivities] = useState<Activity[]>([]);
   const [wishlistActivities, setWishlistActivities] = useState<Activity[]>([]);
   const [bookedActivities, setBookedActivities] = useState<Activity[]>([]);
+  const [currentCardIndex, setCurrentCardIndex] = useState<number>(0);
 
   const activitiesWithDistance = useFetchActivities();
   useEffect(() => {
     setDiscoverActivities(activitiesWithDistance);
-  }, [activitiesWithDistance]);
+  }, [activitiesWithDistance, currentUser]);
 
   const {
     wishlistActivities: fetchedWishlistActivities,
     bookedActivities: fetchedBookedActivities,
-  } = useFetchUserActivities(currentUser?.uid || null);
+  } = useFetchUserActivities();
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -63,16 +68,17 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
     fetchActivities();
   }, [currentUser, fetchedWishlistActivities, fetchedBookedActivities]);
 
-  
   return (
     <DataContext.Provider
       value={{
         discoverActivities,
         wishlistActivities,
         bookedActivities,
+        currentCardIndex,
         setDiscoverActivities,
         setWishlistActivities,
         setBookedActivities,
+        setCurrentCardIndex,
       }}
     >
       {children}

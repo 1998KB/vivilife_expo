@@ -8,7 +8,7 @@ export const handleSwipeRight = (
   const router = useRouter();
 
   return () => {
-    router.push({
+    router.navigate({
       pathname: "/booking",
       params: {
         activity: JSON.stringify(activities[currentIndex]),

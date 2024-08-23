@@ -8,14 +8,14 @@ const _layout = () => {
         name="booking"
         options={{
           headerShown: false,
+          presentation: "fullScreenModal",
         }}
       />
       <Stack.Screen
-        name="authentication"
+        name="checkout"
         options={{
           headerShown: false,
-          presentation: "modal",
-          gestureEnabled: true,
+          presentation: "card",
         }}
       />
     </Stack>

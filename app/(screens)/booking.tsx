@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Pressable,
+  SafeAreaView,
+} from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { DataContext } from "@/contexts/dataProvider";
 import DetailsCardFullscreen from "@/components/DetailsCardFullscreen";
@@ -14,8 +20,7 @@ const Booking = () => {
   const router = useRouter();
   const params = useLocalSearchParams();
   const { activity, origin } = params;
-  const { setWishlistActivities, setDiscoverActivities } =
-    useContext(DataContext);
+  const { setWishlistActivities } = useContext(DataContext);
   const [activityCard, setActivityCard] = useState<Activity | null>(null);
   const { currentUser } = useAuth();
   const usersApi = useUsersApi();
@@ -44,12 +49,11 @@ const Booking = () => {
       router.push("/authentication");
       return;
     }
-    router.replace("/booked");
+    router.push("/checkout");
   };
 
   const handleWishlistSaving = async () => {
     const updatedActivityCard = { ...activityCard, liked: true };
-
     if (currentUser) {
       await usersApi.addToWishlist(currentUser?.uid, updatedActivityCard);
     } else {
@@ -73,7 +77,7 @@ const Booking = () => {
   };
 
   return (
-    <View className="w-screen h-screen absolute bottom-0 justify-center items-left ">
+    <SafeAreaView className=" flex-1 justify-center items-center">
       <ImageWithGradient
         imageUri={activityCard.imageUrl}
         gradientColors={[
@@ -117,7 +121,7 @@ const Booking = () => {
           </Text>
         </Pressable>
       ) : null}
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -17,8 +17,8 @@ import { router } from "expo-router";
 import { beautifyError } from "@/utils/beutifyError";
 import { useApi } from "@/services/api/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Activity } from "@/types";
 import { useUsersApi } from "@/services/api/usersApi";
+import { Activity } from "@/types";
 
 // Define the shape of your auth context
 interface AuthContextType {
@@ -31,6 +31,7 @@ interface AuthContextType {
 // Create the context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const api = useApi();
+const usersApi = useUsersApi();
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -46,42 +47,29 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const usersApi = useUsersApi();
 
   const signIn = async (email: string, password: string) => {
     try {
-      // Sign in the user
       await signInWithEmailAndPassword(auth, email, password);
-
-      // Wait for user authentication state to update
       const user = auth.currentUser;
-
-      // Ensure that the user is set
       if (!user) {
         throw new Error("User is not authenticated");
       }
-
       Toast.show({
         type: "success",
         text1: "Success",
         text2: "User signed in successfully!",
       });
 
-      setTimeout(() => {
-        router.back();
-      }, 2000);
-
       const storedData = await AsyncStorage.getItem("savedActivities");
-      const savedActivities = storedData ? JSON.parse(storedData) : [];
-
+      const savedActivities: Activity[] = storedData
+        ? JSON.parse(storedData)
+        : [];
       if (savedActivities.length > 0) {
-        await Promise.all(
-          savedActivities.map((activity: Activity) => {
-            usersApi.addToWishlist(user.uid, activity);
-            console.log(activity.liked);
-          })
-        );
-        await AsyncStorage.removeItem("savedActivities");
+        savedActivities.map((a) => console.log(a.id));
+        for (const activity of savedActivities) {
+          await usersApi.addToWishlist(user.uid, activity);
+        }
       }
     } catch (error) {
       Toast.show({
@@ -101,9 +89,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           text1: "Success",
           text2: "User signed up successfully!",
         });
-        setTimeout(() => {
-          router.back();
-        }, 2000);
         console.log("User signed up successfully!");
         api
           .post("users", {
@@ -135,37 +120,32 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logOut = async (): Promise<void> => {
-    return signOut(auth)
-      .then(() => {
-        Toast.show({
-          type: "success",
-          text1: "Success",
-          text2: "You've logged out!",
-        });
-        console.log("logged out");
-      })
-      .catch((error) => {
-        Toast.show({
-          type: "error",
-          text1: "Error",
-          text2: beautifyError(error),
-        });
-      })
-      .finally(() => {
-        setCurrentUser(null);
-        router.navigate("/discover");
+    try {
+      await signOut(auth);
+      await AsyncStorage.removeItem("savedActivities");
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "You've logged out!",
       });
+      console.log("logged out");
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: beautifyError(error),
+      });
+    } finally {
+      setCurrentUser(null);
+    }
   };
 
-  // Effect to listen for auth state changes
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
     });
-
-    // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []);
+  }, [auth.currentUser]);
 
   return (
     <AuthContext.Provider value={{ currentUser, signIn, signUp, logOut }}>

@@ -19,7 +19,7 @@ const AuthFooter: React.FC<AuthFooterProps> = ({
       onPress={onSubmit}
       className="w-full p-2 bg-darkerGreen h-14 rounded-xl flex flex-row justify-center items-center"
     >
-      <Text className="text-yellow text-lg font-medium">{buttonText}</Text>
+      <Text className="text-lg font-medium text-yellow">{buttonText}</Text>
     </TouchableOpacity>
     <View className="flex flex-row justify-center items-center mt-4">
       <Text className="text-darkerGreen text-sm font-medium">
